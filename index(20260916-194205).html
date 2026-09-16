@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#11100e">
+<title>NISSY BOUTIQUE — Timeless Indian Fashion</title>
+<meta name="description" content="NISSY BOUTIQUE — Women's ethnic and modern wear in Rajahmundry. Curated collections, customization and rented jewellery.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://images.unsplash.com">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+:root{
+  --ink:#11100e;
+  --ink2:#1a1713;
+  --cream:#f2eadc;
+  --warm:#d8c4a6;
+  --gold:#c8a66a;
+  --white:#fffaf1;
+  --muted:#aaa093;
+  --line:rgba(242,234,220,.18);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);
+  color:var(--cream);
+  font-family:"DM Sans",sans-serif;
+  overflow-x:hidden;
+}
+body.locked{overflow:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* ---------- CURTAIN INTRO ---------- */
+#intro{
+  position:fixed;inset:0;z-index:9999;background:#090807;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.curtain{
+  position:absolute;top:0;width:51%;height:100%;
+  background:
+    radial-gradient(ellipse at 50% 45%,rgba(140,20,30,.25),transparent 48%),
+    repeating-linear-gradient(90deg,#28080e 0,#3b0d14 4%,#1c060b 9%,#4a1118 13%,#25070d 18%);
+  box-shadow:inset 0 0 80px rgba(0,0,0,.65);
+  transition:transform 1.65s cubic-bezier(.77,0,.18,1);
+}
+.curtain.left{left:0;transform-origin:left center}
+.curtain.right{right:0;transform-origin:right center}
+#intro.open .curtain.left{transform:translateX(-102%)}
+#intro.open .curtain.right{transform:translateX(102%)}
+.curtain:after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(0,0,0,.35),transparent 35%,rgba(0,0,0,.25));
+}
+.intro-content{
+  position:relative;z-index:2;text-align:center;
+  transition:opacity .7s ease,transform .9s var(--ease);
+}
+#intro.open .intro-content{opacity:0;transform:scale(1.05);pointer-events:none}
+.intro-small{
+  font-size:10px;letter-spacing:.42em;text-transform:uppercase;
+  color:#cbbba3;margin-bottom:25px;
+}
+.intro-logo{
+  font-family:"Cormorant Garamond",serif;font-size:clamp(48px,8vw,110px);
+  letter-spacing:.24em;font-weight:500;padding-left:.24em;
+}
+.intro-line{width:70px;height:1px;background:var(--gold);margin:25px auto}
+.intro-sub{font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:#b4a58e}
+.enter{
+  margin-top:44px;border:1px solid rgba(242,234,220,.35);
+  padding:13px 24px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;
+  transition:.35s ease;
+}
+.enter:hover{background:var(--cream);color:var(--ink)}
+.intro-loader{
+  position:absolute;bottom:38px;left:50%;transform:translateX(-50%);
+  width:150px;height:1px;background:rgba(255,255,255,.15);overflow:hidden;
+}
+.intro-loader span{display:block;width:0;height:100%;background:var(--gold);animation:load 2s forwards}
+@keyframes load{to{width:100%}}
+
+/* ---------- NAV ---------- */
+.nav{
+  position:fixed;z-index:1000;top:0;left:0;width:100%;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:24px 4.5vw;mix-blend-mode:normal;
+  transition:.5s ease;
+}
+.nav.scrolled{
+  background:rgba(17,16,14,.92);backdrop-filter:blur(14px);
+  padding-top:16px;padding-bottom:16px;border-bottom:1px solid var(--line);
+}
+.brand{
+  font-family:"Cormorant Garamond",serif;font-size:25px;letter-spacing:.23em;
+  padding-left:.23em;font-weight:600;
+}
+.brand small{
+  display:block;font-family:"DM Sans",sans-serif;font-size:7px;letter-spacing:.38em;
+  text-align:center;margin-top:-2px;color:var(--gold);
+}
+.nav-actions{display:flex;align-items:center;gap:24px}
+.menu-btn{
+  width:45px;height:45px;border:1px solid rgba(242,234,220,.35);
+  display:grid;place-items:center;position:relative;transition:.3s ease;
+}
+.menu-btn:hover{background:var(--cream);color:var(--ink)}
+.bars{width:18px;height:12px;position:relative}
+.bars span{position:absolute;left:0;width:100%;height:1px;background:currentColor;transition:.35s ease}
+.bars span:first-child{top:2px}.bars span:last-child{bottom:2px}
+.menu-btn.active .bars span:first-child{top:5px;transform:rotate(45deg)}
+.menu-btn.active .bars span:last-child{bottom:6px;transform:rotate(-45deg)}
+.insta{
+  font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+  opacity:.9;
+}
+@media(max-width:650px){.insta{display:none}.nav{padding:18px 5vw}.brand{font-size:21px}}
+
+/* ---------- SIDE MENU ---------- */
+.menu-panel{
+  position:fixed;z-index:900;right:0;top:0;height:100dvh;width:min(440px,100%);
+  background:#14120f;transform:translateX(100%);transition:transform .7s var(--ease);
+  padding:120px 8vw 45px;display:flex;flex-direction:column;
+  border-left:1px solid var(--line);
+}
+.menu-panel.open{transform:translateX(0)}
+.menu-panel:before{
+  content:"NISSY";position:absolute;right:-20px;bottom:30px;
+  font-family:"Cormorant Garamond",serif;font-size:130px;opacity:.035;
+}
+.menu-title{font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:35px}
+.menu-links{display:flex;flex-direction:column}
+.menu-links a{
+  font-family:"Cormorant Garamond",serif;font-size:35px;font-weight:400;
+  padding:13px 0;border-bottom:1px solid var(--line);
+  transform:translateX(30px);opacity:0;transition:opacity .5s ease,transform .7s var(--ease);
+}
+.menu-panel.open .menu-links a{transform:none;opacity:1}
+.menu-panel.open .menu-links a:nth-child(1){transition-delay:.08s}
+.menu-panel.open .menu-links a:nth-child(2){transition-delay:.13s}
+.menu-panel.open .menu-links a:nth-child(3){transition-delay:.18s}
+.menu-panel.open .menu-links a:nth-child(4){transition-delay:.23s}
+.menu-panel.open .menu-links a:nth-child(5){transition-delay:.28s}
+.menu-panel.open .menu-links a:nth-child(6){transition-delay:.33s}
+.menu-links a:hover{padding-left:12px;color:var(--gold)}
+.menu-bottom{margin-top:auto;font-size:10px;line-height:1.8;color:var(--muted)}
+
+/* ---------- HERO ---------- */
+.hero{height:100svh;min-height:650px;position:relative;overflow:hidden}
+.hero-media{position:absolute;inset:0}
+.hero-media img{filter:brightness(.54);transform:scale(1.08);animation:heroZoom 10s ease-out forwards}
+@keyframes heroZoom{to{transform:scale(1)}}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.08) 65%),linear-gradient(0deg,rgba(0,0,0,.55),transparent 50%);
+}
+.hero-content{
+  position:absolute;left:7vw;bottom:13vh;max-width:800px;
+}
+.eyebrow{
+  font-size:10px;letter-spacing:.42em;text-transform:uppercase;color:#e2cfae;
+  margin-bottom:20px;opacity:0;animation:rise 1s .5s var(--ease) forwards;
+}
+.hero h1{
+  font-family:"Cormorant Garamond",serif;font-size:clamp(62px,10vw,145px);
+  line-height:.77;font-weight:300;letter-spacing:-.025em;
+}
+.hero h1 span{display:block;opacity:0;transform:translateY(45px);animation:rise 1.15s var(--ease) forwards}
+.hero h1 span:nth-child(1){animation-delay:.62s}
+.hero h1 span:nth-child(2){animation-delay:.78s;margin-left:12vw;font-style:italic}
+.hero h1 span:nth-child(3){animation-delay:.94s}
+.hero-copy{
+  max-width:410px;font-size:11px;line-height:1.8;color:#d0c5b6;margin-top:35px;
+  opacity:0;animation:rise 1s 1.08s var(--ease) forwards;
+}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:18px;margin-top:30px;
+  font-size:9px;letter-spacing:.28em;text-transform:uppercase;
+  border-bottom:1px solid var(--gold);padding-bottom:10px;
+  opacity:0;animation:rise 1s 1.25s var(--ease) forwards;
+}
+.hero-cta i{font-style:normal;font-size:18px;line-height:0}
+.scroll{
+  position:absolute;right:4.5vw;bottom:42px;writing-mode:vertical-rl;
+  font-size:8px;letter-spacing:.32em;text-transform:uppercase;color:#c5b9a8;
+}
+.scroll:after{content:"";display:block;width:1px;height:60px;background:var(--gold);margin:15px auto 0}
+@keyframes rise{to{opacity:1;transform:none}}
+
+/* ---------- SECTIONS ---------- */
+.section{padding:140px 7vw;position:relative}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:65px}
+.kicker{font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:15px}
+.section h2{
+  font-family:"Cormorant Garamond",serif;font-size:clamp(50px,7vw,95px);
+  line-height:.88;font-weight:300;
+}
+.section-note{max-width:290px;color:var(--muted);font-size:10px;line-height:1.8}
+@media(max-width:700px){
+  .section{padding:90px 5vw}.section-head{display:block}.section-note{margin-top:25px}
+}
+
+/* ---------- COLLECTIONS ---------- */
+.collections{background:#f0e7d9;color:#17130f}
+.collection-grid{
+  display:grid;grid-template-columns:1.15fr .85fr;gap:22px;
+}
+.collection-card{position:relative;height:75vh;min-height:500px;overflow:hidden;background:#222}
+.collection-card.small{height:75vh}
+.collection-card img{transition:transform 1.2s var(--ease),filter .7s ease}
+.collection-card:hover img{transform:scale(1.055);filter:brightness(.75)}
+.collection-card:after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(0deg,rgba(0,0,0,.68),transparent 60%);
+}
+.card-content{position:absolute;z-index:2;left:35px;bottom:35px;color:#fff}
+.card-number{font-size:9px;letter-spacing:.3em;color:#e5cfa6;margin-bottom:12px}
+.card-content h3{font-family:"Cormorant Garamond",serif;font-size:55px;font-weight:300;line-height:.9}
+.card-content p{font-size:9px;letter-spacing:.18em;text-transform:uppercase;margin-top:14px}
+.card-arrow{
+  position:absolute;z-index:3;right:28px;bottom:30px;width:45px;height:45px;
+  border:1px solid rgba(255,255,255,.5);display:grid;place-items:center;font-size:20px;
+}
+@media(max-width:700px){
+  .collection-grid{grid-template-columns:1fr}
+  .collection-card,.collection-card.small{height:62vh;min-height:420px}
+  .card-content h3{font-size:47px}
+}
+
+/* ---------- STORY ---------- */
+.story{background:var(--ink2)}
+.story-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:9vw;align-items:center}
+.story-image{height:75vh;min-height:500px;overflow:hidden}
+.story-image img{transition:transform 1.2s var(--ease)}
+.story-image:hover img{transform:scale(1.04)}
+.story-copy h2{margin-bottom:30px}
+.story-copy p{font-size:12px;line-height:2;color:#bdb2a4;max-width:490px}
+.story-sign{
+  font-family:"Cormorant Garamond",serif;font-size:35px;font-style:italic;
+  margin-top:40px;color:#d9c39e;
+}
+.story-stat{
+  margin-top:55px;display:flex;gap:55px;border-top:1px solid var(--line);padding-top:25px;
+}
+.stat strong{font-family:"Cormorant Garamond",serif;font-size:42px;font-weight:400}
+.stat span{display:block;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+@media(max-width:800px){.story-grid{grid-template-columns:1fr}.story-image{height:60vh}.story-copy{padding-top:20px}}
+
+/* ---------- MARQUEE ---------- */
+.marquee{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);white-space:nowrap;padding:23px 0;background:#100f0d}
+.marquee-track{display:inline-block;animation:marquee 22s linear infinite}
+.marquee span{
+  font-family:"Cormorant Garamond",serif;font-size:35px;font-style:italic;
+  margin-right:50px;color:#c9b99f;
+}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* ---------- EXPERIENCE ---------- */
+.experience{background:#e9dfd0;color:#17130f}
+.experience .section-note{color:#71695e}
+.exp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#c9bcaa}
+.exp-item{background:#e9dfd0;padding:45px 35px;min-height:290px;transition:.5s ease}
+.exp-item:hover{background:#ded1bf;transform:translateY(-5px)}
+.exp-icon{font-family:"Cormorant Garamond",serif;font-size:50px;font-style:italic;margin-bottom:35px;color:#765e40}
+.exp-item h3{font-family:"Cormorant Garamond",serif;font-size:32px;font-weight:500;margin-bottom:15px}
+.exp-item p{font-size:10px;line-height:1.8;color:#756d63}
+@media(max-width:700px){.exp-grid{grid-template-columns:1fr}.exp-item{min-height:auto}}
+
+/* ---------- TESTIMONIALS ---------- */
+.testimonials{background:#15130f}
+.review-wrap{display:grid;grid-template-columns:1fr 1.5fr;gap:8vw;align-items:center}
+.review-quote{
+  font-family:"Cormorant Garamond",serif;font-size:clamp(34px,4vw,58px);line-height:1.05;
+  font-weight:300;
+}
+.review-quote:before{content:"“";font-size:90px;line-height:0;color:var(--gold);display:block;margin-bottom:25px}
+.review-card{border-top:1px solid var(--line);padding-top:25px}
+.review-card p{font-size:12px;line-height:2;color:#c4b9ab;max-width:600px}
+.review-name{margin-top:30px;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold)}
+.review-dots{margin-top:40px;display:flex;gap:10px}
+.review-dots button{width:7px;height:7px;border-radius:50%;border:1px solid var(--gold)}
+.review-dots button.active{background:var(--gold)}
+@media(max-width:800px){.review-wrap{grid-template-columns:1fr;gap:55px}}
+
+/* ---------- CTA ---------- */
+.cta{
+  min-height:80vh;display:grid;place-items:center;text-align:center;position:relative;overflow:hidden;
+}
+.cta-bg{position:absolute;inset:0}
+.cta-bg img{filter:brightness(.3);transition:transform 2s var(--ease)}
+.cta:hover .cta-bg img{transform:scale(1.04)}
+.cta:after{content:"";position:absolute;inset:0;background:rgba(10,8,6,.35)}
+.cta-content{position:relative;z-index:2}
+.cta h2{font-family:"Cormorant Garamond",serif;font-size:clamp(65px,11vw,145px);font-weight:300;line-height:.75}
+.cta h2 em{font-style:italic}
+.cta p{font-size:10px;letter-spacing:.2em;text-transform:uppercase;margin:35px 0;color:#cdbda6}
+.cta-button{
+  display:inline-flex;border:1px solid rgba(255,255,255,.5);padding:16px 27px;
+  font-size:9px;letter-spacing:.3em;text-transform:uppercase;transition:.35s ease;
+}
+.cta-button:hover{background:var(--cream);color:var(--ink)}
+
+/* ---------- FOOTER ---------- */
+footer{padding:80px 7vw 35px;background:#0c0b09;border-top:1px solid var(--line)}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:50px;padding-bottom:70px}
+.footer-brand{font-family:"Cormorant Garamond",serif;font-size:60px;font-weight:300;letter-spacing:.08em}
+.footer-desc{font-size:10px;color:#8d8378;line-height:1.8;max-width:310px;margin-top:18px}
+.footer-col h4{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:22px}
+.footer-col a,.footer-col p{display:block;font-size:10px;color:#b0a79c;margin-bottom:12px}
+.footer-col a:hover{color:#fff}
+.footer-bottom{border-top:1px solid var(--line);padding-top:22px;display:flex;justify-content:space-between;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#665f57}
+@media(max-width:700px){
+  footer{padding:60px 5vw 25px}.footer-top{grid-template-columns:1fr 1fr}.footer-brand{font-size:48px;grid-column:1/-1}
+  .footer-bottom{display:block;line-height:2}.footer-bottom span{display:block}
+}
+
+/* ---------- REVEAL ---------- */
+.reveal{opacity:0;transform:translateY(55px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.reveal.visible{opacity:1;transform:none}
+.slide-left{opacity:0;transform:translateX(-65px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.slide-left.visible{opacity:1;transform:none}
+.slide-right{opacity:0;transform:translateX(65px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.slide-right.visible{opacity:1;transform:none}
+
+/* ---------- CURTAIN REVEAL ON SECTIONS ---------- */
+.image-reveal{position:relative;overflow:hidden}
+.image-reveal:after{
+  content:"";position:absolute;inset:0;background:#211c16;transform-origin:right;
+  transform:scaleX(1);transition:transform 1.3s cubic-bezier(.77,0,.18,1);
+}
+.image-reveal.visible:after{transform:scaleX(0)}
+
+/* ---------- ACCESSIBILITY ---------- */
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+
+<body class="locked">
+
+<!-- INTRO -->
+<div id="intro">
+  <div class="curtain left"></div>
+  <div class="curtain right"></div>
+  <div class="intro-content">
+    <div class="intro-small">Rajahmundry · Est. 2012</div>
+    <div class="intro-logo">NISSY</div>
+    <div class="intro-line"></div>
+    <div class="intro-sub">Boutique · Indian Fashion</div>
+    <button class="enter" id="enterBtn">Enter Collection</button>
+  </div>
+  <div class="intro-loader"><span></span></div>
+</div>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <a href="#home" class="brand">NISSY<small>BOUTIQUE</small></a>
+  <div class="nav-actions">
+    <a class="insta" target="_blank" rel="noopener" href="https://www.instagram.com/nissy_boutique_rajahmundry/">Instagram ↗</a>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+      <span class="bars"><span></span><span></span></span>
+    </button>
+  </div>
+</header>
+
+<!-- MENU -->
+<aside class="menu-panel" id="menuPanel" aria-hidden="true">
+  <div class="menu-title">Explore Nissy</div>
+  <nav class="menu-links">
+    <a href="#collections">Offers & New Arrivals</a>
+    <a href="#customization">Customization</a>
+    <a href="#collections">Categories</a>
+    <a href="#jewellery">Rented Jewellery</a>
+    <a href="#reviews">Testimonials & Reviews</a>
+    <a href="#support">Customer Support</a>
+  </nav>
+  <div class="menu-bottom">
+    Women's Boutique · Ethnic & Modern Wear<br>
+    Rajahmundry · Andhra Pradesh<br>
+    <br>
+    DM us on Instagram to shop.
+  </div>
+</aside>
+
+<main id="home">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-media">
+    <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=2200&q=85" alt="Indian fashion">
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="eyebrow">Women's Boutique · Rajahmundry</div>
+    <h1>
+      <span>Timeless</span>
+      <span>Traditions</span>
+      <span>Reimagined.</span>
+    </h1>
+    <p class="hero-copy">Ethnic silhouettes, modern expressions and carefully curated pieces designed for the moments you want to remember.</p>
+    <a href="#collections" class="hero-cta">Discover the collection <i>↗</i></a>
+  </div>
+  <div class="scroll">Scroll to explore</div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Ethnic Wear</span><span>·</span><span>Modern Wear</span><span>·</span><span>Curated Collections</span><span>·</span><span>Made for You</span><span>·</span>
+    <span>Ethnic Wear</span><span>·</span><span>Modern Wear</span><span>·</span><span>Curated Collections</span><span>·</span><span>Made for You</span><span>·</span>
+  </div>
+</div>
+
+<!-- COLLECTIONS -->
+<section class="section collections" id="collections">
+  <div class="section-head reveal">
+    <div>
+      <div class="kicker">01 · The Collections</div>
+      <h2>Dress the<br><i>occasion.</i></h2>
+    </div>
+    <p class="section-note">From graceful traditional drapes to contemporary silhouettes, discover pieces selected to bring effortless character to your wardrobe.</p>
+  </div>
+
+  <div class="collection-grid">
+    <a class="collection-card image-reveal slide-left" href="#support">
+      <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=1300&q=85" alt="Elegant Indian ethnic wear" loading="lazy">
+      <div class="card-content">
+        <div class="card-number">01</div>
+        <h3>Ethnic<br>Elegance</h3>
+        <p>Sarees · Lehengas · Festive Edit</p>
+      </div>
+      <div class="card-arrow">↗</div>
+    </a>
+
+    <a class="collection-card small image-reveal slide-right" href="#support">
+      <img src="https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=1100&q=85" alt="Indian modern fashion" loading="lazy">
+      <div class="card-content">
+        <div class="card-number">02</div>
+        <h3>Modern<br>Expressions</h3>
+        <p>Indo-Western · Everyday · Party Wear</p>
+      </div>
+      <div class="card-arrow">↗</div>
+    </a>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="section story" id="customization">
+  <div class="story-grid">
+    <div class="story-image image-reveal slide-left">
+      <img src="https://images.unsplash.com/photo-1609357605129-26f69add5d6e?auto=format&fit=crop&w=1300&q=85" alt="Indian boutique fashion detail" loading="lazy">
+    </div>
+    <div class="story-copy slide-right">
+      <div class="kicker">02 · The Nissy Story</div>
+      <h2>Style with<br><i>intention.</i></h2>
+      <p>NISSY BOUTIQUE brings together Indian craftsmanship and contemporary styling with a personal, curated approach. Every collection is chosen with an eye for detail, occasion and individuality.</p>
+      <p style="margin-top:20px">Looking for something uniquely yours? Ask about our customization service and let us shape the details around you.</p>
+      <div class="story-sign">Made to feel like you.</div>
+      <div class="story-stat">
+        <div class="stat"><strong>12+</strong><span>Years of experience</span></div>
+        <div class="stat"><strong>01</strong><span>Personal style</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section experience" id="jewellery">
+  <div class="section-head reveal">
+    <div>
+      <div class="kicker">03 · More than a wardrobe</div>
+      <h2>The Nissy<br><i>experience.</i></h2>
+    </div>
+    <p class="section-note">Everything you need to complete the look — from personalized styling to statement jewellery for special occasions.</p>
+  </div>
+
+  <div class="exp-grid">
+    <article class="exp-item reveal">
+      <div class="exp-icon">01</div>
+      <h3>Customization</h3>
+      <p>Personalize silhouettes, details and finishing touches for a look that feels distinctly yours.</p>
+    </article>
+    <article class="exp-item reveal">
+      <div class="exp-icon">02</div>
+      <h3>Rented Jewellery</h3>
+      <p>Complete your festive and occasion looks with statement jewellery available for rent.</p>
+    </article>
+    <article class="exp-item reveal">
+      <div class="exp-icon">03</div>
+      <h3>Curated Styling</h3>
+      <p>Tell us your occasion and style direction. We help you discover pieces that work together effortlessly.</p>
+    </article>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="section testimonials" id="reviews">
+  <div class="review-wrap">
+    <div class="reveal">
+      <div class="kicker">04 · From our customers</div>
+      <div class="review-quote" id="quote">A beautiful experience from choosing the outfit to the final look.</div>
+    </div>
+    <div class="review-card slide-right">
+      <p id="reviewText">“The collection feels thoughtfully selected and the styling makes it so easy to find something special. I always leave with a look I feel confident in.”</p>
+      <div class="review-name" id="reviewName">Nissy Customer · Rajahmundry</div>
+      <div class="review-dots">
+        <button class="active" data-review="0" aria-label="Review 1"></button>
+        <button data-review="1" aria-label="Review 2"></button>
+        <button data-review="2" aria-label="Review 3"></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="support">
+  <div class="cta-bg">
+    <img src="https://images.unsplash.com/photo-1610189012906-4a1b9f9f6b37?auto=format&fit=crop&w=2200&q=85" alt="Fashion background" loading="lazy">
+  </div>
+  <div class="cta-content reveal">
+    <div class="kicker">05 · Your next look</div>
+    <h2>Find your<br><em>Nissy.</em></h2>
+    <p>New arrivals · Customization · Styling · Jewellery</p>
+    <a class="cta-button" target="_blank" rel="noopener" href="https://www.instagram.com/nissy_boutique_rajahmundry/">Shop / DM on Instagram ↗</a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">NISSY</div>
+      <div class="footer-desc">Women's Boutique · Ethnic & Modern Wear · Curated Collections · 12+ Years of Experience · Rajahmundry.</div>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="#collections">Collections</a>
+      <a href="#customization">Customization</a>
+      <a href="#jewellery">Rented Jewellery</a>
+      <a href="#reviews">Reviews</a>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <a target="_blank" rel="noopener" href="https://www.instagram.com/nissy_boutique_rajahmundry/">Instagram ↗</a>
+      <p>Rajahmundry, Andhra Pradesh</p>
+      <p>DM to shop & enquire</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 NISSY BOUTIQUE</span>
+    <span>Designed for timeless style</span>
+  </div>
+</footer>
+
+<script>
+/* ---------- INTRO / CURTAIN ---------- */
+const intro = document.getElementById("intro");
+const enterBtn = document.getElementById("enterBtn");
+
+function openIntro(){
+  intro.classList.add("open");
+  document.body.classList.remove("locked");
+  setTimeout(()=>{ intro.style.display="none"; },1700);
+}
+setTimeout(openIntro, 3000);
+enterBtn.addEventListener("click", openIntro);
+
+/* ---------- MENU ---------- */
+const menuBtn = document.getElementById("menuBtn");
+const menuPanel = document.getElementById("menuPanel");
+
+function toggleMenu(force){
+  const open = typeof force === "boolean" ? force : !menuPanel.classList.contains("open");
+  menuPanel.classList.toggle("open",open);
+  menuBtn.classList.toggle("active",open);
+  menuBtn.setAttribute("aria-expanded",open);
+  menuPanel.setAttribute("aria-hidden",!open);
+  document.body.classList.toggle("locked",open);
+}
+menuBtn.addEventListener("click",()=>toggleMenu());
+document.querySelectorAll(".menu-links a").forEach(a=>{
+  a.addEventListener("click",()=>toggleMenu(false));
+});
+
+/* ---------- NAV ON SCROLL ---------- */
+const nav = document.getElementById("nav");
+window.addEventListener("scroll",()=>{
+  nav.classList.toggle("scrolled",window.scrollY>60);
+},{passive:true});
+
+/* ---------- SCROLL REVEALS ---------- */
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add("visible");
+      observer.unobserve(entry.target);
+    }
+  });
+},{threshold:.12,rootMargin:"0px 0px -50px 0px"});
+
+document.querySelectorAll(".reveal,.slide-left,.slide-right,.image-reveal").forEach(el=>observer.observe(el));
+
+/* ---------- REVIEWS ---------- */
+const reviews = [
+  {
+    quote:"A beautiful experience from choosing the outfit to the final look.",
+    text:"“The collection feels thoughtfully selected and the styling makes it so easy to find something special. I always leave with a look I feel confident in.”",
+    name:"Nissy Customer · Rajahmundry"
+  },
+  {
+    quote:"Every detail feels personal, elegant and effortlessly Indian.",
+    text:"“I loved how easy it was to discuss what I wanted. The final outfit felt like it was made specifically for me.”",
+    name:"Nissy Customer · Rajahmundry"
+  },
+  {
+    quote:"The kind of boutique you remember after the occasion is over.",
+    text:"“From the outfit selection to the jewellery, everything came together beautifully. The collection has such a premium feel.”",
+    name:"Nissy Customer · Rajahmundry"
+  }
+];
+const quote = document.getElementById("quote");
+const reviewText = document.getElementById("reviewText");
+const reviewName = document.getElementById("reviewName");
+document.querySelectorAll(".review-dots button").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const r=reviews[Number(btn.dataset.review)];
+    quote.style.opacity="0"; reviewText.style.opacity="0";
+    setTimeout(()=>{
+      quote.textContent=r.quote;
+      reviewText.textContent=r.text;
+      reviewName.textContent=r.name;
+      quote.style.opacity="1"; reviewText.style.opacity="1";
+    },180);
+    document.querySelectorAll(".review-dots button").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+  });
+});
+
+/* ---------- PARALLAX ---------- */
+const heroImg=document.querySelector(".hero-media img");
+window.addEventListener("scroll",()=>{
+  if(window.scrollY<window.innerHeight){
+    heroImg.style.transform=`scale(1) translateY(${window.scrollY*.10}px)`;
+  }
+},{passive:true});
+
+/* ---------- ESC CLOSE ---------- */
+document.addEventListener("keydown",(e)=>{
+  if(e.key==="Escape"){
+    if(menuPanel.classList.contains("open")) toggleMenu(false);
+    else if(intro.style.display!=="none") openIntro();
+  }
+});
+</script>
+</body>
+</html>
