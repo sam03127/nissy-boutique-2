@@ -92,7 +92,7 @@ img{display:block;width:100%;height:100%;object-fit:cover}
 .nav{
   position:fixed;z-index:1000;top:0;left:0;width:100%;
   display:flex;align-items:center;justify-content:space-between;
-  padding:24px 4.5vw;mix-blend-mode:normal;
+  padding:24px 4.5vw;mix-blend-mode:normal;isolation:isolate;
   transition:.5s ease;
 }
 .nav.scrolled{
@@ -109,12 +109,26 @@ img{display:block;width:100%;height:100%;object-fit:cover}
 }
 .nav-actions{display:flex;align-items:center;gap:24px}
 .menu-btn{
-  width:45px;height:45px;border:1px solid rgba(242,234,220,.35);
-  display:grid;place-items:center;position:relative;transition:background .35s ease,color .35s ease,border-color .35s ease,transform .35s cubic-bezier(.22,1,.36,1);
+  width:45px;height:45px;
+  border:1px solid rgba(49,95,186,.45);
+  background:rgba(255,255,255,.88);
+  color:#315fba;
+  display:grid;place-items:center;position:relative;
+  border-radius:0;
+  transition:background .35s ease,color .35s ease,border-color .35s ease,transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease;
+  -webkit-tap-highlight-color:transparent;
 }
-.menu-btn:hover{background:var(--cream);color:var(--ink)}
+.menu-btn:hover,
+.menu-btn:focus-visible{
+  background:#315fba;
+  color:#ffffff;
+  border-color:#315fba;
+  box-shadow:0 8px 25px rgba(49,95,186,.18);
+  outline:none;
+}
+.menu-btn:active{transform:scale(.94)}
 .bars{width:18px;height:12px;position:relative}
-.bars span{position:absolute;left:0;width:100%;height:1px;background:currentColor;transition:.35s ease}
+.bars span{position:absolute;left:0;width:100%;height:1.5px;background:currentColor;transition:transform .4s cubic-bezier(.22,1,.36,1),top .4s cubic-bezier(.22,1,.36,1),bottom .4s cubic-bezier(.22,1,.36,1);transform-origin:center}
 .bars span:first-child{top:2px}.bars span:last-child{bottom:2px}
 .menu-btn.active .bars span:first-child{top:5px;transform:rotate(45deg)}
 .menu-btn.active .bars span:last-child{bottom:6px;transform:rotate(-45deg)}
@@ -362,6 +376,14 @@ footer{padding:80px 7vw 35px;background:#315fba;border-top:1px solid var(--line)
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
+@media(max-width:650px){
+  .menu-btn{
+    width:42px;height:42px;
+    flex:0 0 42px;
+  }
+  .bars{width:17px;height:12px}
 }
 </style>
 </head>
