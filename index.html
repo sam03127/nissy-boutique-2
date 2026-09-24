@@ -232,31 +232,97 @@ img{display:block;width:100%;height:100%;object-fit:cover}
   .section{padding:90px 5vw}.section-head{display:block}.section-note{margin-top:25px}
 }
 
-/* ---------- COLLECTIONS ---------- */
+/* ---------- CATEGORIES ---------- */
 .collections{background:#f0e7d9;color:#17130f}
-.collection-grid{
-  display:grid;grid-template-columns:1.15fr .85fr;gap:22px;
+.category-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
 }
-.collection-card{position:relative;height:75vh;min-height:500px;overflow:hidden;background:#dbe6fb}
-.collection-card.small{height:75vh}
-.collection-card img{transition:transform 1.35s cubic-bezier(.22,1,.36,1),filter .9s ease}
-.collection-card:hover img{transform:scale(1.055);filter:brightness(.75)}
-.collection-card:after{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(0deg,rgba(0,0,0,.68),transparent 60%);
+.category-card{
+  position:relative;
+  min-height:190px;
+  padding:30px 28px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  background:#ffffff;
+  border:1px solid rgba(49,95,186,.16);
+  color:#315fba;
+  transition:transform .55s cubic-bezier(.22,1,.36,1),
+             box-shadow .55s ease,
+             background .35s ease;
 }
-.card-content{position:absolute;z-index:2;left:35px;bottom:35px;color:#ffffff}
-.card-number{font-size:9px;letter-spacing:.3em;color:#dbe6fb;margin-bottom:12px}
-.card-content h3{font-family:"Yeseva One",serif;font-size:55px;font-weight:300;line-height:.9}
-.card-content p{font-size:9px;letter-spacing:.18em;text-transform:uppercase;margin-top:14px}
-.card-arrow{
-  position:absolute;z-index:3;right:28px;bottom:30px;width:45px;height:45px;
-  border:1px solid rgba(255,255,255,.5);display:grid;place-items:center;font-size:20px;
+.category-card:before{
+  content:"";
+  position:absolute;
+  width:170px;
+  height:170px;
+  border-radius:50%;
+  right:-70px;
+  top:-70px;
+  background:#dbe6fb;
+  transition:transform .7s cubic-bezier(.22,1,.36,1);
 }
-@media(max-width:700px){
-  .collection-grid{grid-template-columns:1fr}
-  .collection-card,.collection-card.small{height:62vh;min-height:420px}
-  .card-content h3{font-size:47px}
+.category-card:hover{
+  transform:translateY(-7px);
+  box-shadow:0 20px 45px rgba(49,95,186,.14);
+  background:#fbfcff;
+}
+.category-card:hover:before{transform:scale(1.45)}
+.category-number{
+  position:absolute;
+  top:22px;
+  left:25px;
+  font-size:9px;
+  letter-spacing:.25em;
+  color:#6c7da5;
+}
+.category-icon{
+  position:absolute;
+  right:24px;
+  top:23px;
+  width:38px;
+  height:38px;
+  border:1px solid rgba(49,95,186,.25);
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-size:15px;
+  z-index:1;
+  transition:transform .45s ease,background .35s ease,color .35s ease;
+}
+.category-card:hover .category-icon{
+  transform:rotate(45deg);
+  background:#315fba;
+  color:#ffffff;
+}
+.category-card h3{
+  position:relative;
+  z-index:1;
+  font-family:"Yeseva One",serif;
+  font-size:clamp(24px,2.4vw,36px);
+  line-height:1;
+  font-weight:400;
+  max-width:90%;
+}
+.category-card p{
+  position:relative;
+  z-index:1;
+  font-size:8px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  margin-top:12px;
+  color:#6b7690;
+}
+@media(max-width:950px){
+  .category-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+  .category-grid{grid-template-columns:1fr;gap:12px}
+  .category-card{min-height:155px;padding:25px 22px}
+  .category-card h3{font-size:29px}
 }
 
 /* ---------- STORY ---------- */
@@ -468,31 +534,137 @@ footer{padding:80px 7vw 35px;background:#315fba;border-top:1px solid var(--line)
 <section class="section collections" id="collections">
   <div class="section-head reveal">
     <div>
-      <div class="kicker">01 · The Collections</div>
-      <h2>Dress the<br><i>occasion.</i></h2>
+      <div class="kicker">01 · Nissy Categories</div>
+      <h2>Explore the<br><i>categories.</i></h2>
     </div>
-    <p class="section-note">From graceful traditional drapes to contemporary silhouettes, discover pieces selected to bring effortless character to your wardrobe.</p>
+    <p class="section-note">Explore our complete range of outfits, fabrics, jewellery, embroidery, stitching and customization services. Choose a category to enquire with Nissy Boutique.</p>
   </div>
 
-  <div class="collection-grid">
-    <a class="collection-card image-reveal slide-left" href="#support">
-      <img src="https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=1300&q=85" alt="Elegant Indian ethnic wear" loading="lazy">
-      <div class="card-content">
-        <div class="card-number">01</div>
-        <h3>Ethnic<br>Elegance</h3>
-        <p>Sarees · Lehengas · Festive Edit</p>
-      </div>
-      <div class="card-arrow">↗</div>
+  <div class="category-grid">
+    <a class="category-card reveal" href="#support" data-category="Sarees">
+      <span class="category-number">01</span>
+      <span class="category-icon">↗</span>
+      <h3>Sarees</h3>
+      <p>Traditional drapes & festive looks</p>
     </a>
 
-    <a class="collection-card small image-reveal slide-right" href="#support">
-      <img src="https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=1100&q=85" alt="Indian modern fashion" loading="lazy">
-      <div class="card-content">
-        <div class="card-number">02</div>
-        <h3>Modern<br>Expressions</h3>
-        <p>Indo-Western · Everyday · Party Wear</p>
-      </div>
-      <div class="card-arrow">↗</div>
+    <a class="category-card reveal" href="#support" data-category="Dresses">
+      <span class="category-number">02</span>
+      <span class="category-icon">↗</span>
+      <h3>Dresses</h3>
+      <p>Stylish ethnic & modern dresses</p>
+    </a>
+
+    <a class="category-card reveal" href="#support" data-category="Dress Materials">
+      <span class="category-number">03</span>
+      <span class="category-icon">↗</span>
+      <h3>Dress Materials</h3>
+      <p>Fabrics ready for your style</p>
+    </a>
+
+    <a class="category-card reveal" href="#support" data-category="Lehenga Fabrics">
+      <span class="category-number">04</span>
+      <span class="category-icon">↗</span>
+      <h3>Lehenga Fabrics</h3>
+      <p>Fabrics for beautiful lehengas</p>
+    </a>
+
+    <a class="category-card reveal" href="#support" data-category="Long Frocks">
+      <span class="category-number">05</span>
+      <span class="category-icon">↗</span>
+      <h3>Long Frocks</h3>
+      <p>Elegant long frock collections</p>
+    </a>
+
+    <a class="category-card reveal" href="#support" data-category="Rental Jewellery">
+      <span class="category-number">06</span>
+      <span class="category-icon">↗</span>
+      <h3>Rental Jewellery</h3>
+      <p>Jewellery for special occasions</p>
+    </a>
+
+    <a class="category-card reveal" href="#support" data-category="Silver Jewellery">
+      <span class="category-number">07</span>
+      <span class="category-icon">↗</span>
+      <h3>Silver Jewellery</h3>
+      <p>Classic silver jewellery</p>
+    </a>
+
+    <a class="category-card reveal" href="#support" data-category="Blouse Fabrics">
+      <span class="category-number">08</span>
+      <span class="category-icon">↗</span>
+      <h3>Blouse Fabrics</h3>
+      <p>Fabrics for custom blouses</p>
+    </a>
+
+    <a class="category-card reveal" href="#support" data-category="Dupattas">
+      <span class="category-number">09</span>
+      <span class="category-icon">↗</span>
+      <h3>Dupattas</h3>
+      <p>Complete your traditional look</p>
+    </a>
+
+    <a class="category-card reveal" href="#support" data-category="Maggam Work">
+      <span class="category-number">10</span>
+      <span class="category-icon">↗</span>
+      <h3>Maggam Work</h3>
+      <p>Detailed hand embellishment</p>
+    </a>
+
+    <a class="category-card reveal" href="#support" data-category="Machine Embroidery">
+      <span class="category-number">11</span>
+      <span class="category-icon">↗</span>
+      <h3>Machine Embroidery</h3>
+      <p>Precise decorative embroidery</p>
+    </a>
+
+    <a class="category-card reveal" href="#support" data-category="Computer Embroidery">
+      <span class="category-number">12</span>
+      <span class="category-icon">↗</span>
+      <h3>Computer Embroidery</h3>
+      <p>Modern embroidery designs</p>
+    </a>
+
+    <a class="category-card reveal" href="#support" data-category="Customized Stitching">
+      <span class="category-number">13</span>
+      <span class="category-icon">↗</span>
+      <h3>Customized Stitching</h3>
+      <p>All kinds of customized stitching</p>
+    </a>
+
+    <a class="category-card reveal" href="#support" data-category="Painting">
+      <span class="category-number">14</span>
+      <span class="category-icon">↗</span>
+      <h3>Painting</h3>
+      <p>Artistic fabric & outfit details</p>
+    </a>
+
+    <a class="category-card reveal" href="#support" data-category="Co-ord Sets">
+      <span class="category-number">15</span>
+      <span class="category-icon">↗</span>
+      <h3>Co-ord Sets</h3>
+      <p>Matching coordinated outfits</p>
+    </a>
+
+    <a class="category-card reveal" href="#support" data-category="3-Piece Sets">
+      <span class="category-number">16</span>
+      <span class="category-icon">↗</span>
+      <h3>3-Piece Sets</h3>
+      <p>Complete three-piece looks</p>
+    </a>
+
+    <a class="category-card reveal" href="#support" data-category="2-Piece Sets">
+      <span class="category-number">17</span>
+      <span class="category-icon">↗</span>
+      <h3>2-Piece Sets</h3>
+      <p>Easy two-piece styling</p>
+    </a>
+
+    <a class="category-card reveal" href="#support" data-category="Frocks">
+      <span class="category-number">18</span>
+      <span class="category-icon">↗</span>
+      <h3>Frocks</h3>
+      <p>Beautiful frocks for every occasion</p>
     </a>
   </div>
 </section>
@@ -638,6 +810,18 @@ menuBtn.addEventListener("click",()=>toggleMenu());
 menuBackdrop.addEventListener("click",()=>toggleMenu(false));
 document.querySelectorAll(".menu-links a").forEach(a=>{
   a.addEventListener("click",()=>toggleMenu(false));
+});
+
+/* ---------- CATEGORY INTERACTIONS ---------- */
+document.querySelectorAll(".category-card").forEach(card=>{
+  card.addEventListener("click",()=>{
+    const name = card.dataset.category;
+    const support = document.getElementById("support");
+    if(support){
+      const ctaText = support.querySelector(".cta-content p");
+      if(ctaText) ctaText.textContent = name + " · DM us on Instagram for availability & details";
+    }
+  });
 });
 
 /* ---------- NAV ON SCROLL ---------- */
